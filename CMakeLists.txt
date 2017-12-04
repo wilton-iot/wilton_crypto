@@ -57,6 +57,9 @@ if ( STATICLIB_TOOLCHAIN MATCHES "android_.+" )
 elseif ( STATICLIB_TOOLCHAIN MATCHES "windows_.+" )
     target_link_libraries ( ${PROJECT_NAME} PRIVATE wtsapi32 ws2_32 )
     set_property ( TARGET ${PROJECT_NAME} APPEND_STRING PROPERTY LINK_FLAGS "/manifest:no" )
+elseif ( STATICLIB_TOOLCHAIN MATCHES "macosx_.+" )
+    get_property ( ${PROJECT_NAME}_LINK_FLAGS TARGET ${PROJECT_NAME} PROPERTY LINK_FLAGS )
+    set_property ( TARGET ${PROJECT_NAME} PROPERTY LINK_FLAGS "-L${${PROJECT_NAME}_DEPS_PC_openssl_LIBDIR} ${${PROJECT_NAME}_LINK_FLAGS}" )
 endif ( )
 
 # pkg-config
