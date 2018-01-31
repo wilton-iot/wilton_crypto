@@ -12,10 +12,10 @@
 #include "wilton/support/registrar.hpp"
 
 extern "C" char* wilton_module_init() {
-    try {
+    //try {
         // register calls
         return nullptr;
-    } catch (const std::exception& e) {
-        return wilton::support::alloc_copy(TRACEMSG(e.what() + "\nException raised"));
-    }
+    //} catch (const std::exception& e) {
+    //    return wilton::support::alloc_copy(TRACEMSG(e.what() + "\nException raised"));
+    //}
 }
