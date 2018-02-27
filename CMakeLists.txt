@@ -18,7 +18,7 @@ cmake_minimum_required ( VERSION 2.8.12 )
 project ( wilton_crypto CXX )
 
 # dependencies add
-if ( STATICLIB_TOOLCHAIN MATCHES "(android|windows)_.+" )
+if ( STATICLIB_TOOLCHAIN MATCHES "(android|windows|macosx)_.+" )
     staticlib_add_subdirectory ( ${STATICLIB_DEPS}/external_openssl )
 endif ( )
 staticlib_add_subdirectory ( ${STATICLIB_DEPS}/staticlib_crypto )
@@ -75,7 +75,8 @@ elseif ( STATICLIB_TOOLCHAIN MATCHES "windows_.+" )
     set_property ( TARGET ${PROJECT_NAME} APPEND_STRING PROPERTY LINK_FLAGS "/manifest:no" )
 elseif ( STATICLIB_TOOLCHAIN MATCHES "macosx_.+" )
     get_property ( ${PROJECT_NAME}_LINK_FLAGS TARGET ${PROJECT_NAME} PROPERTY LINK_FLAGS )
-    set_property ( TARGET ${PROJECT_NAME} PROPERTY LINK_FLAGS "-L${${PROJECT_NAME}_DEPS_PC_openssl_LIBDIR} ${${PROJECT_NAME}_LINK_FLAGS}" )
+    set_property ( TARGET ${PROJECT_NAME} PROPERTY LINK_FLAGS
+            "-Wl,-force_load ${CMAKE_ARCHIVE_OUTPUT_DIRECTORY}/libopenssl.a ${${PROJECT_NAME}_LINK_FLAGS}" )
 endif ( )
 
 # pkg-config
