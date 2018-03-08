@@ -65,6 +65,7 @@ target_include_directories ( ${PROJECT_NAME} BEFORE PRIVATE
         
 target_compile_options ( ${PROJECT_NAME} PRIVATE ${${PROJECT_NAME}_DEPS_PC_CFLAGS_OTHER} )
 
+# platform-specific link options
 if ( STATICLIB_TOOLCHAIN MATCHES "android_.+" )
     set_property ( TARGET ${PROJECT_NAME} APPEND_STRING PROPERTY LINK_FLAGS "-Wl,-soname,lib${PROJECT_NAME}.so" )
     get_property ( ${PROJECT_NAME}_LINK_FLAGS TARGET ${PROJECT_NAME} PROPERTY LINK_FLAGS )
@@ -78,6 +79,9 @@ elseif ( STATICLIB_TOOLCHAIN MATCHES "macosx_.+" )
     set_property ( TARGET ${PROJECT_NAME} PROPERTY LINK_FLAGS
             "-Wl,-force_load ${CMAKE_ARCHIVE_OUTPUT_DIRECTORY}/libopenssl.a ${${PROJECT_NAME}_LINK_FLAGS}" )
 endif ( )
+
+# debuginfo
+staticlib_extract_debuginfo_shared ( ${PROJECT_NAME} )
 
 # pkg-config
 set ( ${PROJECT_NAME}_PC_CFLAGS "-I${CMAKE_CURRENT_LIST_DIR}/include" )
