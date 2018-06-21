@@ -21,8 +21,12 @@ EXPORTS
     CRYPTO_free
     BIO_new
     BIO_free
+	BIO_f_base64
     BIO_ctrl
+	BIO_push
+	BIO_s_bio
     BIO_s_mem
+	BIO_set_flags
     BN_num_bits
     BN_bn2bin
     ASN1_STRING_length
@@ -161,5 +165,8 @@ EXPORTS
     SSL_get_ex_data
     SSL_get_ex_data_X509_STORE_CTX_idx
     SSL_COMP_free_compression_methods
+	SHA1_Init
+	SHA1_Update
+	SHA1_Final
 
     wilton_module_init
