@@ -41,36 +41,21 @@ namespace wilton {
 namespace crypto {
 
 support::buffer get_file_hash(sl::io::span<const char> data) {
-    // json parse
-    auto json = sl::json::load(data);
+    auto file_path = std::string(data.begin(), data.size());
 
-    auto rpath = std::ref(sl::utils::empty_string());
-    for (const sl::json::field& fi : json.as_object()) {
-        auto& name = fi.name();
-        if ("path" == name) {
-            rpath = fi.as_string_nonempty_or_throw(name);
-        } else {
-            throw support::exception(TRACEMSG("Unknown data field: [" + name + "]"));
-        }
-    }
-    if (rpath.get().empty()) throw support::exception(TRACEMSG(
-            "Required parameter 'path' not specified"));
-
-    const std::string& file_path = rpath.get();
+    const size_t buffer_len = 1024;
+    std::array<char, buffer_len> buf;
+    auto sink = sl::io::string_sink();
 
     // call
-    const size_t buffer_len = 1024;
     auto tpath = sl::tinydir::path(file_path);
     auto source = tpath.open_read();
     auto sha_source = sl::crypto::make_sha256_source<sl::tinydir::file_source>(std::move(source));
-    auto sink = sl::io::string_sink();
-    std::array<char, buffer_len> buf;
+
     sl::io::copy_all(sha_source, sink, buf);
     auto hash = sha_source.get_hash();
 
-    return support::make_json_buffer({
-        { "hash", hash}
-    });
+    return support::make_string_buffer(hash);
 }
 
 } // namespace crypto
