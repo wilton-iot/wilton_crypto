@@ -37,25 +37,36 @@
 #include "wilton/support/exception.hpp"
 #include "wilton/support/registrar.hpp"
 
+#include "wilton/wilton_crypto.h"
+
 namespace wilton {
 namespace crypto {
 
 support::buffer get_file_hash(sl::io::span<const char> data) {
-    auto file_path = std::string(data.begin(), data.size());
+    // json parse
+    auto json = sl::json::load(data);
+    int buffer_len = 1024;
+    auto rfile = std::ref(sl::utils::empty_string());
+    for (const sl::json::field& fi : json.as_object()) {
+        auto& name = fi.name();
+        if ("bufferLength" == name) {
+            buffer_len = fi.as_int32_or_throw(name);
+        } else if ("filePath" == name) {
+            rfile = fi.as_string_nonempty_or_throw(name);
+        } else {
+            throw support::exception(TRACEMSG("Unknown data field: [" + name + "]"));
+        }
+    }
+    if (rfile.get().empty()) throw support::exception(TRACEMSG(
+            "Required parameter 'filePath' not specified"));
 
-    const size_t buffer_len = 1024;
-    std::array<char, buffer_len> buf;
-    auto sink = sl::io::string_sink();
-
-    // call
-    auto tpath = sl::tinydir::path(file_path);
-    auto source = tpath.open_read();
-    auto sha_source = sl::crypto::make_sha256_source<sl::tinydir::file_source>(std::move(source));
-
-    sl::io::copy_all(sha_source, sink, buf);
-    auto hash = sha_source.get_hash();
-
-    return support::make_string_buffer(hash);
+    const std::string& file_path = rfile.get();
+    char* hash = nullptr;
+    int hash_len = 0;
+    char* err = wilton_crypto_get_file_hash(file_path.c_str(), file_path.size(), buffer_len,
+                                std::addressof(hash), std::addressof(hash_len));
+    if (nullptr != err) support::throw_wilton_error(err, TRACEMSG(err));
+    return support::wrap_wilton_buffer(hash, hash_len);
 }
 
 } // namespace crypto
