@@ -63,8 +63,10 @@ support::buffer get_file_hash256(sl::io::span<const char> data) {
     const std::string& file_path = rfile.get();
     char* hash = nullptr;
     int hash_len = 0;
-    char* err = wilton_crypto_get_file_hash256(file_path.c_str(), file_path.size(), buffer_len,
-                                std::addressof(hash), std::addressof(hash_len));
+    char* err = wilton_crypto_get_file_hash256(file_path.c_str(),
+           static_cast<int>(file_path.size()),
+           buffer_len,
+           std::addressof(hash), std::addressof(hash_len));
     if (nullptr != err) support::throw_wilton_error(err, TRACEMSG(err));
     return support::wrap_wilton_buffer(hash, hash_len);
 }
