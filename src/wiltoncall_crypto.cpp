@@ -42,7 +42,7 @@
 namespace wilton {
 namespace crypto {
 
-support::buffer get_file_hash(sl::io::span<const char> data) {
+support::buffer get_file_hash256(sl::io::span<const char> data) {
     // json parse
     auto json = sl::json::load(data);
     int buffer_len = 1024;
@@ -63,7 +63,7 @@ support::buffer get_file_hash(sl::io::span<const char> data) {
     const std::string& file_path = rfile.get();
     char* hash = nullptr;
     int hash_len = 0;
-    char* err = wilton_crypto_get_file_hash(file_path.c_str(), file_path.size(), buffer_len,
+    char* err = wilton_crypto_get_file_hash256(file_path.c_str(), file_path.size(), buffer_len,
                                 std::addressof(hash), std::addressof(hash_len));
     if (nullptr != err) support::throw_wilton_error(err, TRACEMSG(err));
     return support::wrap_wilton_buffer(hash, hash_len);
@@ -76,7 +76,7 @@ support::buffer get_file_hash(sl::io::span<const char> data) {
 extern "C" char* wilton_module_init() {
     try {
         // register calls
-        wilton::support::register_wiltoncall("get_file_hash", wilton::crypto::get_file_hash);
+        wilton::support::register_wiltoncall("get_file_hash256", wilton::crypto::get_file_hash256);
         return nullptr;
     } catch (const std::exception& e) {
         return wilton::support::alloc_copy(TRACEMSG(e.what() + "\nException raised"));

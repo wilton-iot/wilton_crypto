@@ -28,7 +28,7 @@
 #include "wilton/support/alloc.hpp"
 #include "wilton/support/exception.hpp"
 
-char* wilton_crypto_get_file_hash  /* noexcept */(
+char* wilton_crypto_get_file_hash256  /* noexcept */(
         const char* file_path,
         int file_path_len,
         int read_buffer_size,
