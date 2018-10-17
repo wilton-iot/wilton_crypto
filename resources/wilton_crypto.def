@@ -170,3 +170,5 @@ EXPORTS
 	SHA1_Final
 
     wilton_module_init
+    
+    wilton_crypto_get_file_hash256
