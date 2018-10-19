@@ -171,4 +171,4 @@ EXPORTS
 
     wilton_module_init
     
-    wilton_crypto_get_file_hash256
+    wilton_crypto_sha256
