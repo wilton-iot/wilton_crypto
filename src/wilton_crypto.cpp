@@ -15,8 +15,6 @@
  * limitations under the License.
  */
 
-#include <vector>
-
 #include "wilton/wilton_crypto.h"
 
 #include "staticlib/config.hpp"
@@ -28,7 +26,7 @@
 #include "wilton/support/alloc.hpp"
 #include "wilton/support/exception.hpp"
 
-char* wilton_crypto_get_file_hash256  /* noexcept */(
+char* wilton_crypto_sha256  /* noexcept */(
         const char* file_path,
         int file_path_len,
         int read_buffer_size,
@@ -43,7 +41,6 @@ char* wilton_crypto_get_file_hash256  /* noexcept */(
             "Invalid 'file_path_len' parameter specified: [" + sl::support::to_string(read_buffer_size) + "]"));
 	try {
         auto file_path_str = std::string(file_path, static_cast<uint32_t> (file_path_len));
-        std::vector<char> buf(read_buffer_size);
         auto sink = sl::io::string_sink();
 
         // call
@@ -51,7 +48,7 @@ char* wilton_crypto_get_file_hash256  /* noexcept */(
         auto source = tpath.open_read();
         auto sha_source = sl::crypto::make_sha256_source<sl::tinydir::file_source>(std::move(source));
 
-        sl::io::copy_all(sha_source, sink, buf);
+        sl::io::copy_all(sha_source, sink);
         auto hash = sha_source.get_hash();
 
         *result_set_out = wilton::support::alloc_copy(hash);

@@ -24,7 +24,7 @@
 extern "C" {
 #endif
 
-char* wilton_crypto_get_file_hash256(
+char* wilton_crypto_sha256(
         const char* file_path,
         int file_path_len,
         int read_buffer_size,
