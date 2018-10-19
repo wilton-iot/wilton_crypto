@@ -48,6 +48,8 @@ endif ( )
 
 add_library ( ${PROJECT_NAME} SHARED
         ${CMAKE_CURRENT_LIST_DIR}/src/wiltoncall_crypto.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/src/wilton_crypto.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/include/wilton/wilton_crypto.h
         ${${PROJECT_NAME}_RESFILE}
         ${${PROJECT_NAME}_DEFFILE} )
         
