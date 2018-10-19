@@ -45,13 +45,10 @@ namespace crypto {
 support::buffer crypto_hash256(sl::io::span<const char> data) {
     // json parse
     auto json = sl::json::load(data);
-    int buffer_len = 1024;
     auto rfile = std::ref(sl::utils::empty_string());
     for (const sl::json::field& fi : json.as_object()) {
         auto& name = fi.name();
-        if ("bufferLength" == name) {
-            buffer_len = fi.as_int32_or_throw(name);
-        } else if ("filePath" == name) {
+        if ("filePath" == name) {
             rfile = fi.as_string_nonempty_or_throw(name);
         } else {
             throw support::exception(TRACEMSG("Unknown data field: [" + name + "]"));
@@ -65,7 +62,6 @@ support::buffer crypto_hash256(sl::io::span<const char> data) {
     int hash_len = 0;
     char* err = wilton_crypto_sha256(file_path.c_str(),
            static_cast<int>(file_path.size()),
-           buffer_len,
            std::addressof(hash), std::addressof(hash_len));
     if (nullptr != err) support::throw_wilton_error(err, TRACEMSG(err));
     return support::wrap_wilton_buffer(hash, hash_len);

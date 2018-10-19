@@ -29,7 +29,6 @@
 char* wilton_crypto_sha256  /* noexcept */(
         const char* file_path,
         int file_path_len,
-        int read_buffer_size,
         char** result_set_out,
         int* result_set_len_out){
 	if (nullptr == file_path) return wilton::support::alloc_copy(TRACEMSG("Null 'file_path' parameter specified"));
@@ -37,8 +36,6 @@ char* wilton_crypto_sha256  /* noexcept */(
 	if (nullptr == result_set_len_out) return wilton::support::alloc_copy(TRACEMSG("Null 'result_set_len_out' parameter specified"));
     if (!sl::support::is_uint16_positive(file_path_len)) return wilton::support::alloc_copy(TRACEMSG(
             "Invalid 'file_path_len' parameter specified: [" + sl::support::to_string(file_path_len) + "]"));
-    if (!sl::support::is_uint32_positive(read_buffer_size)) return wilton::support::alloc_copy(TRACEMSG(
-            "Invalid 'file_path_len' parameter specified: [" + sl::support::to_string(read_buffer_size) + "]"));
 	try {
         auto file_path_str = std::string(file_path, static_cast<uint32_t> (file_path_len));
         auto sink = sl::io::string_sink();
