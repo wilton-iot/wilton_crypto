@@ -38,7 +38,7 @@ install:
   - cd ..
   - git clone https://github.com/wilton-iot/wilton
   - cd wilton
-  - ./resources/ci/travis-checkout.sh
+  - bash ./resources/ci/travis-checkout.sh
 
 before_script:
   - set -e
@@ -53,7 +53,7 @@ before_script:
   - popd
 
 script:
-  - ./resources/ci/travis.sh
+  - bash ./resources/ci/travis.sh
 
 notifications:
   email:
