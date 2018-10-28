@@ -21,12 +21,12 @@ EXPORTS
     CRYPTO_free
     BIO_new
     BIO_free
-	BIO_f_base64
+    BIO_f_base64
     BIO_ctrl
-	BIO_push
-	BIO_s_bio
+    BIO_push
+    BIO_s_bio
     BIO_s_mem
-	BIO_set_flags
+    BIO_set_flags
     BN_num_bits
     BN_bn2bin
     ASN1_STRING_length
