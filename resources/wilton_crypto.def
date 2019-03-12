@@ -54,7 +54,7 @@ EXPORTS
     DSA_do_sign
     DSA_do_verify
     DSA_free
-    DSA_new referenced
+    DSA_new
     DSA_SIG_free
     ENGINE_cleanup
     ERR_clear_error
