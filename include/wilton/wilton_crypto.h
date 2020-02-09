@@ -30,6 +30,34 @@ char* wilton_crypto_sha256(
         char** result_set_out,
         int* result_set_len_out);
 
+char* wilton_crypto_aes_create_crypt_key(
+        const char* secret,
+        int secret_len,
+        char** key_out,
+        int* key_len_out,
+        char** iv_out,
+        int* iv_len_out);
+
+char* wilton_crypto_aes_encrypt(
+        const char* file_path,
+        int file_path_len,
+        const char* crypt_key,
+        int crypt_key_len,
+        const char* init_vec,
+        int init_vec_len,
+        const char* dest_file_path,
+        int dest_file_path_len);
+
+char* wilton_crypto_aes_decrypt(
+        const char* file_path,
+        int file_path_len,
+        const char* crypt_key,
+        int crypt_key_len,
+        const char* init_vec,
+        int init_vec_len,
+        const char* dest_file_path,
+        int dest_file_path_len);
+
 #ifdef __cplusplus
 }
 #endif

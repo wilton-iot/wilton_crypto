@@ -226,5 +226,8 @@ EXPORTS
     X509_verify_cert_error_string
 
     wilton_crypto_sha256
+    wilton_crypto_aes_create_crypt_key
+    wilton_crypto_aes_decrypt
+    wilton_crypto_aes_encrypt
 
     wilton_module_init
