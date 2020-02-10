@@ -156,8 +156,8 @@ support::buffer aes_create_crypt_key(sl::io::span<const char> data) {
         wilton_free(iv);
     });
     return support::make_json_buffer({
-        { "cryptKey", std::string(key, static_cast<size_t>(key_len)) },
-        { "initVec", std::string(iv, static_cast<size_t>(iv_len)) }
+        { "cryptKey", sl::io::string_to_hex(std::string(key, static_cast<size_t>(key_len))) },
+        { "initVec", sl::io::string_to_hex(std::string(iv, static_cast<size_t>(iv_len))) }
     });
 }
 

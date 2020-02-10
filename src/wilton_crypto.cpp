@@ -85,8 +85,11 @@ char* wilton_crypto_aes_create_crypt_key(const char* secret, int secret_len, cha
         auto key = sha256(secret_str + hash).substr(0, 64); // full string
         auto iv = sha256(hash + secret_str).substr(0, 32);
 
-        auto key_buf = wilton::support::make_string_buffer(key);
-        auto iv_buf = wilton::support::make_string_buffer(iv);
+        auto key_bin = sl::io::string_from_hex(key);
+        auto iv_bin = sl::io::string_from_hex(iv);
+
+        auto key_buf = wilton::support::make_string_buffer(key_bin);
+        auto iv_buf = wilton::support::make_string_buffer(iv_bin);
 
         *key_out = key_buf.data();
         *key_len_out = key_buf.size_int();
