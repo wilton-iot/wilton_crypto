@@ -22,6 +22,7 @@ EXPORTS
     BIO_ctrl
     BIO_ctrl_pending
     BIO_f_base64
+    BIO_f_cipher
     BIO_free
     BIO_new
     BIO_new_bio_pair
@@ -29,6 +30,7 @@ EXPORTS
     BIO_push
     BIO_read
     BIO_s_bio
+    BIO_set_cipher
     BIO_set_flags
     BIO_s_mem
     BIO_write
